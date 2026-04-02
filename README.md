@@ -8,284 +8,228 @@
 >
 > For licensing information, visit https://velobpa.com/licensing or contact licensing@velobpa.com.
 
-A comprehensive n8n community node for KeepKey hardware wallet integration, enabling workflow automation for cryptocurrency operations including address generation, transaction signing, device management, and cross-chain swaps via THORChain.
+This n8n community node provides comprehensive integration with KeepKey hardware wallets, enabling secure cryptocurrency operations directly within your n8n workflows. With support for 5 core resources (Device, Wallet, Transaction, Exchange, Asset), it offers complete wallet management, transaction processing, and portfolio tracking capabilities for automated crypto workflows.
 
-![n8n](https://img.shields.io/badge/n8n-community--node-orange)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)
+![n8n Community Node](https://img.shields.io/badge/n8n-Community%20Node-blue)
 ![License](https://img.shields.io/badge/license-BSL--1.1-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)
+![Hardware Wallet](https://img.shields.io/badge/Hardware-Wallet-green)
+![Crypto](https://img.shields.io/badge/Crypto-Trading-orange)
+![Security](https://img.shields.io/badge/Security-Hardware-red)
 
 ## Features
 
-- **23 Resource Categories** - Comprehensive coverage of KeepKey operations
-- **164+ Operations** - Full range of cryptocurrency workflow actions
-- **Multi-Chain Support** - Bitcoin, Ethereum, Cosmos ecosystem, THORChain
-- **Hardware Security** - Secure key operations on KeepKey device
-- **Cross-Chain Swaps** - THORChain DEX integration
-- **Device Management** - PIN, passphrase, recovery, firmware operations
-- **Trigger Node** - Event-driven workflow automation
+- **Hardware Wallet Management** - Connect, initialize, and manage KeepKey devices with full PIN and passphrase support
+- **Multi-Currency Support** - Handle Bitcoin, Ethereum, and 40+ cryptocurrencies with native KeepKey integration
+- **Secure Transaction Processing** - Sign and broadcast transactions with hardware-level security validation
+- **Portfolio Tracking** - Monitor balances, transaction history, and asset allocation across multiple wallets
+- **Exchange Integration** - Execute trades and manage orders through supported exchange partnerships
+- **Address Generation** - Generate receiving addresses with full BIP32/44 hierarchical deterministic support
+- **Recovery Operations** - Backup and restore wallet seeds with mnemonic phrase management
+- **Real-time Price Data** - Access live cryptocurrency prices and market data for portfolio valuation
 
 ## Installation
 
 ### Community Nodes (Recommended)
 
 1. Open n8n
-2. Go to **Settings** > **Community Nodes**
-3. Click **Install**
+2. Go to **Settings** → **Community Nodes**
+3. Click **Install a community node**
 4. Enter `n8n-nodes-keepkey`
 5. Click **Install**
 
 ### Manual Installation
 
 ```bash
-cd ~/.n8n/custom
+cd ~/.n8n
 npm install n8n-nodes-keepkey
 ```
 
 ### Development Installation
 
 ```bash
-# 1. Extract the zip file
-unzip n8n-nodes-keepkey.zip
+git clone https://github.com/Velocity-BPA/n8n-nodes-keepkey.git
 cd n8n-nodes-keepkey
-
-# 2. Install dependencies
 npm install
-
-# 3. Build the project
 npm run build
-
-# 4. Create symlink to n8n custom nodes directory
-# For Linux/macOS:
 mkdir -p ~/.n8n/custom
 ln -s $(pwd) ~/.n8n/custom/n8n-nodes-keepkey
-
-# For Windows (run as Administrator):
-# mklink /D %USERPROFILE%\.n8n\custom\n8n-nodes-keepkey %CD%
-
-# 5. Restart n8n
 n8n start
 ```
 
 ## Credentials Setup
 
-### KeepKey API Credentials
-
-| Field | Description |
-|-------|-------------|
-| Connection Type | `bridge` or `desktop` |
-| Bridge URL | KeepKey Bridge URL (default: `http://localhost:1646`) |
-
-### KeepKey Network Credentials
-
-| Field | Description |
-|-------|-------------|
-| Network | `mainnet` or `testnet` |
-| Explorer URL | Block explorer base URL |
+| Field | Description | Required |
+|-------|-------------|----------|
+| API Key | KeepKey API key for device communication | Yes |
+| Device ID | Unique identifier for your KeepKey device | Yes |
+| PIN | Device PIN for authentication | No |
+| Passphrase | Optional passphrase for additional security | No |
 
 ## Resources & Operations
 
-### Device Operations
-- Get Features, Initialize, Wipe, Ping, Get Entropy, Get Random Bytes
+### 1. Device
 
-### Account Management
-- Get Accounts, Get Balance, Get Transaction History, Sync Account
+| Operation | Description |
+|-----------|-------------|
+| Connect | Establish connection to KeepKey device |
+| Disconnect | Safely disconnect from device |
+| Initialize | Set up new device with PIN and label |
+| Reset | Factory reset device (wipes all data) |
+| Get Features | Retrieve device capabilities and firmware version |
+| Update Firmware | Install latest firmware updates |
+| Wipe Device | Securely erase all device data |
+| Load Device | Restore device from recovery seed |
 
-### Bitcoin Operations
-- Get Public Key, Get Address, Get Xpub, Verify Address, Sign Transaction, Sign Message, Verify Message
+### 2. Wallet
 
-### Bitcoin-Like Coins
-- Litecoin, Dogecoin, Bitcoin Cash support with same operations as Bitcoin
+| Operation | Description |
+|-----------|-------------|
+| Create Wallet | Generate new wallet with mnemonic seed |
+| Import Wallet | Import existing wallet from seed phrase |
+| Get Balance | Retrieve balance for specific cryptocurrency |
+| Get Address | Generate receiving address for transactions |
+| List Addresses | Get all generated addresses for wallet |
+| Backup Seed | Export mnemonic seed phrase securely |
+| Change PIN | Update device PIN code |
+| Set Label | Assign custom label to wallet |
 
-### Ethereum Operations
-- Get Address, Get Public Key, Sign Transaction, Sign Message, Verify Message, Get Balance, Get Nonce
+### 3. Transaction
 
-### EVM Chains
-- Polygon, Arbitrum, Optimism, Avalanche, BSC support
+| Operation | Description |
+|-----------|-------------|
+| Sign Transaction | Sign transaction with hardware wallet |
+| Send Crypto | Send cryptocurrency to specified address |
+| Get Transaction | Retrieve transaction details by hash |
+| List Transactions | Get transaction history for wallet |
+| Estimate Fee | Calculate network fees for transaction |
+| Broadcast Transaction | Submit signed transaction to network |
+| Verify Message | Verify cryptographic message signature |
+| Sign Message | Sign message with wallet private key |
 
-### ERC-20 Tokens
-- Get Balance, Transfer, Approve, Get Allowance
+### 4. Exchange
 
-### Cosmos Operations
-- Get Address, Get Public Key, Sign Transaction, Delegate, Undelegate, Claim Rewards
+| Operation | Description |
+|-----------|-------------|
+| Get Rates | Retrieve current exchange rates |
+| Create Order | Place buy/sell order on exchange |
+| Get Order Status | Check status of existing order |
+| Cancel Order | Cancel pending exchange order |
+| List Orders | Get order history and active orders |
+| Get Trading Pairs | Retrieve available trading pairs |
+| Execute Trade | Perform instant buy/sell transaction |
+| Get Trade History | Access complete trading history |
 
-### THORChain Operations
-- Get Address, Get Balance, Deposit, Swap, Add Liquidity, Withdraw Liquidity
+### 5. Asset
 
-### Osmosis Operations
-- Get Address, Swap, Add Liquidity, Get Pools
-
-### Address Utilities
-- Validate Address, Detect Address Type, Get Address Info, Format Address
-
-### Transaction Operations
-- Build Transaction, Estimate Fee, Get Transaction Status, Broadcast Transaction
-
-### Signing Operations
-- Sign Hash, Sign Typed Data, Verify Signature
-
-### ShapeShift Integration
-- Get Quote, Execute Trade, Get Trade Status, Get Supported Pairs
-
-### Swap Operations
-- Prepare Swap, Execute Swap, Get Swap Status, Get Swap History
-
-### Staking Operations
-- Stake, Unstake, Claim Rewards, Get Staking Info
-
-### DeFi Operations
-- Get Protocol Info, Get User Position, Deposit, Withdraw
-
-### Recovery Operations
-- Start Recovery, Enter Word, Cancel Recovery
-
-### PIN Operations
-- Change PIN, Remove PIN, Enter PIN, Check PIN Status, Get PIN Matrix
-
-### Passphrase Operations
-- Enable, Disable, Enter, Check Status, Set On Device
-
-### Firmware Operations
-- Get Version, Check Update, Update Firmware
-
-### Security Operations
-- Get Device Status, Set Auto Lock, Factory Reset
-
-### Utility Operations
-- Convert Units, Validate Address, Get Derivation Path, Format Amount
-
-## Trigger Node
-
-The KeepKey Trigger node allows event-driven workflows:
-
-| Event | Description |
-|-------|-------------|
-| Device Connected | Triggered when KeepKey is connected |
-| Device Disconnected | Triggered when KeepKey is disconnected |
-| Button Request | Triggered when device requests button press |
-| PIN Request | Triggered when device requests PIN entry |
-| Passphrase Request | Triggered when device requests passphrase |
-| Transaction Signed | Triggered when transaction is signed |
-| Transaction Rejected | Triggered when transaction is rejected |
-| Swap Initiated | Triggered when swap begins |
-| Swap Completed | Triggered when swap completes |
+| Operation | Description |
+|-----------|-------------|
+| List Assets | Get all supported cryptocurrencies |
+| Get Asset Info | Retrieve detailed asset information |
+| Get Price | Get current market price for asset |
+| Get Price History | Retrieve historical price data |
+| Get Market Cap | Get market capitalization data |
+| Track Portfolio | Monitor portfolio value and allocation |
+| Set Price Alerts | Configure price change notifications |
+| Get Asset News | Retrieve latest news for cryptocurrency |
 
 ## Usage Examples
 
-### Get Bitcoin Address
-
 ```javascript
-// Configure KeepKey node
+// Connect to KeepKey device and get balance
 {
-  "resource": "bitcoin",
-  "operation": "getAddress",
-  "accountIndex": 0,
-  "addressIndex": 0,
-  "showOnDevice": true
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "device",
+        "operation": "connect",
+        "deviceId": "{{ $json.deviceId }}"
+      },
+      "type": "n8n-nodes-keepkey.keepkey",
+      "position": [250, 300]
+    }
+  ]
 }
 ```
 
-### Sign Ethereum Message
-
 ```javascript
-// Configure KeepKey node
+// Send Bitcoin transaction
 {
-  "resource": "ethereum",
-  "operation": "signMessage",
-  "message": "Hello, KeepKey!",
-  "accountIndex": 0
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "transaction",
+        "operation": "sendCrypto",
+        "cryptocurrency": "bitcoin",
+        "toAddress": "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+        "amount": 0.001,
+        "feeLevel": "normal"
+      },
+      "type": "n8n-nodes-keepkey.keepkey",
+      "position": [250, 300]
+    }
+  ]
 }
 ```
 
-### Prepare THORChain Swap
-
 ```javascript
-// Configure KeepKey node
+// Get portfolio balance across multiple assets
 {
-  "resource": "swap",
-  "operation": "prepareSwap",
-  "sellAsset": "BTC.BTC",
-  "buyAsset": "ETH.ETH",
-  "sellAmount": "0.01",
-  "slippageTolerance": 1
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "asset",
+        "operation": "trackPortfolio",
+        "assets": ["bitcoin", "ethereum", "litecoin"],
+        "includePrices": true,
+        "currency": "USD"
+      },
+      "type": "n8n-nodes-keepkey.keepkey",
+      "position": [250, 300]
+    }
+  ]
 }
 ```
 
-## KeepKey Concepts
-
-### Derivation Paths
-
-KeepKey uses BIP-32/44/49/84 derivation paths:
-
-| Type | Path | Description |
-|------|------|-------------|
-| Legacy | m/44'/0'/0'/0/0 | P2PKH addresses (1...) |
-| SegWit | m/49'/0'/0'/0/0 | P2SH-P2WPKH addresses (3...) |
-| Native SegWit | m/84'/0'/0'/0/0 | Bech32 addresses (bc1q...) |
-| Taproot | m/86'/0'/0'/0/0 | Bech32m addresses (bc1p...) |
-
-### Connection Types
-
-| Type | Description |
-|------|-------------|
-| KeepKey Bridge | Chrome extension bridge (localhost:1646) |
-| KeepKey Desktop | Desktop application |
-
-## Networks
-
-| Network | Chain ID | Description |
-|---------|----------|-------------|
-| Bitcoin Mainnet | - | Production Bitcoin network |
-| Bitcoin Testnet | - | Test Bitcoin network |
-| Ethereum Mainnet | 1 | Production Ethereum network |
-| Polygon | 137 | Polygon PoS network |
-| Arbitrum | 42161 | Arbitrum One L2 |
-| Optimism | 10 | Optimism L2 |
-| Cosmos Hub | cosmoshub-4 | Cosmos mainnet |
-| THORChain | thorchain-mainnet-v1 | THORChain mainnet |
-| Osmosis | osmosis-1 | Osmosis mainnet |
+```javascript
+// Set up automated trading with price alerts
+{
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "exchange",
+        "operation": "createOrder",
+        "pair": "BTC/USD",
+        "type": "limit",
+        "side": "buy",
+        "amount": 0.01,
+        "price": 45000
+      },
+      "type": "n8n-nodes-keepkey.keepkey",
+      "position": [250, 300]
+    }
+  ]
+}
+```
 
 ## Error Handling
 
-The node provides detailed error messages for common scenarios:
-
-| Error | Description |
-|-------|-------------|
-| Device not connected | KeepKey is not plugged in or bridge not running |
-| User rejected | User rejected the operation on device |
-| PIN required | Device is locked and requires PIN |
-| Invalid address | Address format validation failed |
-| Insufficient funds | Not enough balance for transaction |
-
-## Security Best Practices
-
-1. **Always verify addresses on device** - Use `showOnDevice: true`
-2. **Use passphrase for additional security** - Enable BIP39 passphrase
-3. **Keep firmware updated** - Check for updates regularly
-4. **Verify transaction details** - Always confirm on device display
-5. **Use testnet for development** - Test workflows before mainnet
+| Error | Description | Solution |
+|-------|-------------|----------|
+| Device Not Found | KeepKey device is not connected or detected | Ensure device is plugged in and drivers are installed |
+| PIN Required | Device requires PIN authentication | Provide PIN in credentials or device operation |
+| Transaction Failed | Transaction could not be signed or broadcast | Check balance, network fees, and address validity |
+| Invalid API Key | Authentication failed with provided credentials | Verify API key is correct and has necessary permissions |
+| Network Error | Connection to blockchain network failed | Check internet connection and try again later |
+| Insufficient Balance | Not enough funds to complete transaction | Verify wallet balance and reduce transaction amount |
 
 ## Development
 
 ```bash
-# Install dependencies
 npm install
-
-# Build the project
 npm run build
-
-# Run tests
 npm test
-
-# Run tests with coverage
-npm run test:coverage
-
-# Run linting
 npm run lint
-
-# Fix linting issues
-npm run lint:fix
-
-# Watch mode for development
 npm run dev
 ```
 
@@ -303,31 +247,24 @@ This n8n community node is licensed under the **Business Source License 1.1**.
 Permitted for personal, educational, research, and internal business use.
 
 ### Commercial Use
-Use of this node within any SaaS, PaaS, hosted platform, managed service,
-or paid automation offering requires a commercial license.
+Use of this node within any SaaS, PaaS, hosted platform, managed service, or paid automation offering requires a commercial license.
 
-For licensing inquiries:
-**licensing@velobpa.com**
+For licensing inquiries: **licensing@velobpa.com**
 
 See [LICENSE](LICENSE), [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md), and [LICENSING_FAQ.md](LICENSING_FAQ.md) for details.
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Contributions are welcome! Please ensure:
+
+1. Code follows existing style conventions
+2. All tests pass (`npm test`)
+3. Linting passes (`npm run lint`)
+4. Documentation is updated for new features
+5. Commit messages are descriptive
 
 ## Support
 
 - **Issues**: [GitHub Issues](https://github.com/Velocity-BPA/n8n-nodes-keepkey/issues)
-- **Documentation**: [KeepKey Docs](https://developer.keepkey.com/)
-- **n8n Community**: [n8n Community Forum](https://community.n8n.io/)
-
-## Acknowledgments
-
-- [KeepKey](https://shapeshift.com/keepkey) - Hardware wallet manufacturer
-- [ShapeShift](https://shapeshift.com/) - Decentralized exchange platform
-- [n8n](https://n8n.io/) - Workflow automation platform
-- [THORChain](https://thorchain.org/) - Cross-chain liquidity protocol
+- **KeepKey API Documentation**: [KeepKey Developer Docs](https://keepkey.myshopify.com/pages/developer-documentation)
+- **Hardware Wallet Community**: [KeepKey Support Forum](https://keepkey.zendesk.com/hc/en-us)
