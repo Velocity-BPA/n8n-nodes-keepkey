@@ -86,6 +86,7 @@ function buildErc20ApproveData(spender: string, amount: string): string {
 // Resource definitions
 const resources = [
   { name: 'Device', value: 'device', description: 'Device management operations' },
+  { name: 'Wallet', value: 'wallet', description: 'Wallet management operations' },
   { name: 'Account', value: 'account', description: 'Account and wallet management' },
   { name: 'Bitcoin', value: 'bitcoin', description: 'Bitcoin transactions and operations' },
   { name: 'Bitcoin-Like', value: 'bitcoinLike', description: 'Litecoin, Dogecoin, Bitcoin Cash, etc.' },
@@ -95,8 +96,10 @@ const resources = [
   { name: 'Cosmos', value: 'cosmos', description: 'Cosmos Hub transactions' },
   { name: 'THORChain', value: 'thorchain', description: 'THORChain transactions and swaps' },
   { name: 'Osmosis', value: 'osmosis', description: 'Osmosis DEX operations' },
-  { name: 'Address', value: 'address', description: 'Address generation and validation' },
   { name: 'Transaction', value: 'transaction', description: 'Transaction building and status' },
+  { name: 'Exchange', value: 'exchange', description: 'Exchange operations' },
+  { name: 'Asset', value: 'asset', description: 'Asset operations' },
+  { name: 'Address', value: 'address', description: 'Address generation and validation' },
   { name: 'Signing', value: 'signing', description: 'Message and data signing' },
   { name: 'ShapeShift', value: 'shapeshift', description: 'ShapeShift integration' },
   { name: 'Swap', value: 'swap', description: 'Cross-chain swap operations' },
@@ -110,8 +113,10 @@ const resources = [
   { name: 'Utility', value: 'utility', description: 'Utility operations' },
 ];
 
-// Operation definitions
+// Device Operations
 const deviceOperations = [
+  { name: 'Get Device Info', value: 'getDeviceInfo', description: 'Get device information and capabilities', action: 'Get device info' },
+  { name: 'Initialize Device', value: 'initializeDevice', description: 'Initialize device connection', action: 'Initialize device' },
   { name: 'Initialize', value: 'initialize', description: 'Initialize connection to device' },
   { name: 'Get Features', value: 'getFeatures', description: 'Get device features and info' },
   { name: 'Ping', value: 'ping', description: 'Ping the device' },
@@ -130,6 +135,17 @@ const deviceOperations = [
   { name: 'Disable Passphrase', value: 'disablePassphrase', description: 'Disable passphrase protection' },
   { name: 'Set Auto Lock Delay', value: 'setAutoLockDelay', description: 'Set auto-lock timeout' },
   { name: 'Get Coin Table', value: 'getCoinTable', description: 'Get supported coins' },
+  { name: 'Get Public Key', value: 'getPublicKey', description: 'Get public key for derivation path', action: 'Get public key' },
+  { name: 'Recover Device', value: 'recoverDevice', description: 'Start device recovery process', action: 'Recover device' },
+];
+
+// Wallet Operations
+const walletOperations = [
+  { name: 'Get Addresses', value: 'getAddresses', description: 'Get wallet addresses for specified coin', action: 'Get wallet addresses' },
+  { name: 'Generate Address', value: 'generateAddress', description: 'Generate new address for specified path', action: 'Generate new address' },
+  { name: 'Get Balance', value: 'getBalance', description: 'Get balance for specific address or wallet', action: 'Get wallet balance' },
+  { name: 'Get UTXOs', value: 'getUtxos', description: 'Get unspent transaction outputs', action: 'Get unspent transaction outputs' },
+  { name: 'Get Extended Public Key', value: 'getExtendedPublicKey', description: 'Get extended public key for specified derivation path', action: 'Get extended public key' },
 ];
 
 const accountOperations = [
@@ -232,6 +248,41 @@ const osmosisOperations = [
   { name: 'Swap', value: 'swap', description: 'Execute DEX swap' },
 ];
 
+// Transaction Operations
+const transactionOperations = [
+  { name: 'Sign Transaction', value: 'signTransaction', description: 'Sign transaction with KeepKey device', action: 'Sign transaction' },
+  { name: 'Broadcast Transaction', value: 'broadcastTransaction', description: 'Broadcast signed transaction to network', action: 'Broadcast transaction' },
+  { name: 'Get Transaction History', value: 'getTransactionHistory', description: 'Get transaction history for address', action: 'Get transaction history' },
+  { name: 'Estimate Fee', value: 'estimateFee', description: 'Estimate transaction fee', action: 'Estimate fee' },
+  { name: 'Get Transaction Details', value: 'getTransactionDetails', description: 'Get detailed transaction information', action: 'Get transaction details' },
+  { name: 'Build', value: 'build', description: 'Build transaction' },
+  { name: 'Sign', value: 'sign', description: 'Sign transaction' },
+  { name: 'Broadcast', value: 'broadcast', description: 'Broadcast transaction' },
+  { name: 'Get Status', value: 'getStatus', description: 'Get transaction status' },
+  { name: 'Get Details', value: 'getDetails', description: 'Get transaction details' },
+  { name: 'Decode', value: 'decode', description: 'Decode raw transaction' },
+  { name: 'Get History', value: 'getHistory', description: 'Get transaction history' },
+  { name: 'Cancel', value: 'cancel', description: 'Cancel pending transaction' },
+];
+
+// Exchange Operations
+const exchangeOperations = [
+  { name: 'Get Exchange Rate', value: 'getExchangeRate', description: 'Get current exchange rate between coins', action: 'Get exchange rate' },
+  { name: 'Create Exchange Order', value: 'createExchangeOrder', description: 'Create new exchange order', action: 'Create exchange order' },
+  { name: 'Get Exchange Order', value: 'getExchangeOrder', description: 'Get exchange order status', action: 'Get exchange order' },
+  { name: 'Get Supported Pairs', value: 'getSupportedPairs', description: 'Get list of supported trading pairs', action: 'Get supported pairs' },
+  { name: 'Get Exchange Limits', value: 'getExchangeLimits', description: 'Get min/max limits for trading pair', action: 'Get exchange limits' },
+];
+
+// Asset Operations
+const assetOperations = [
+  { name: 'Get Supported Assets', value: 'getSupportedAssets', description: 'Get list of all supported cryptocurrencies', action: 'Get supported assets' },
+  { name: 'Get Asset Info', value: 'getAssetInfo', description: 'Get detailed information about specific asset', action: 'Get asset info' },
+  { name: 'Get Market Data', value: 'getMarketData', description: 'Get current market data for asset', action: 'Get market data' },
+  { name: 'Get Price History', value: 'getPriceHistory', description: 'Get historical price data', action: 'Get price history' },
+  { name: 'Add Custom Token', value: 'addCustomToken', description: 'Add custom ERC-20 token support', action: 'Add custom token' },
+];
+
 const addressOperations = [
   { name: 'Generate', value: 'generate', description: 'Generate new address' },
   { name: 'Validate', value: 'validate', description: 'Validate address format' },
@@ -241,18 +292,6 @@ const addressOperations = [
   { name: 'Get QR Code', value: 'getQrCode', description: 'Get address QR code' },
   { name: 'Convert Format', value: 'convertFormat', description: 'Convert address format' },
   { name: 'Lookup', value: 'lookup', description: 'Lookup address info' },
-];
-
-const transactionOperations = [
-  { name: 'Build', value: 'build', description: 'Build transaction' },
-  { name: 'Sign', value: 'sign', description: 'Sign transaction' },
-  { name: 'Broadcast', value: 'broadcast', description: 'Broadcast transaction' },
-  { name: 'Get Status', value: 'getStatus', description: 'Get transaction status' },
-  { name: 'Get Details', value: 'getDetails', description: 'Get transaction details' },
-  { name: 'Estimate Fee', value: 'estimateFee', description: 'Estimate transaction fee' },
-  { name: 'Decode', value: 'decode', description: 'Decode raw transaction' },
-  { name: 'Get History', value: 'getHistory', description: 'Get transaction history' },
-  { name: 'Cancel', value: 'cancel', description: 'Cancel pending transaction' },
 ];
 
 const signingOperations = [
@@ -443,6 +482,17 @@ export class KeepKey implements INodeType {
         default: 'getFeatures',
       },
 
+      // Wallet Operations
+      {
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+        noDataExpression: true,
+        displayOptions: { show: { resource: ['wallet'] } },
+        options: walletOperations,
+        default: 'getAddresses',
+      },
+
       // Account Operations
       {
         displayName: 'Operation',
@@ -542,6 +592,39 @@ export class KeepKey implements INodeType {
         default: 'getAddress',
       },
 
+      // Transaction Operations
+      {
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+        noDataExpression: true,
+        displayOptions: { show: { resource: ['transaction'] } },
+        options: transactionOperations,
+        default: 'signTransaction',
+      },
+
+      // Exchange Operations
+      {
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+        noDataExpression: true,
+        displayOptions: { show: { resource: ['exchange'] } },
+        options: exchangeOperations,
+        default: 'getExchangeRate',
+      },
+
+      // Asset Operations
+      {
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+        noDataExpression: true,
+        displayOptions: { show: { resource: ['asset'] } },
+        options: assetOperations,
+        default: 'getSupportedAssets',
+      },
+
       // Address Operations
       {
         displayName: 'Operation',
@@ -551,17 +634,6 @@ export class KeepKey implements INodeType {
         displayOptions: { show: { resource: ['address'] } },
         options: addressOperations,
         default: 'generate',
-      },
-
-      // Transaction Operations
-      {
-        displayName: 'Operation',
-        name: 'operation',
-        type: 'options',
-        noDataExpression: true,
-        displayOptions: { show: { resource: ['transaction'] } },
-        options: transactionOperations,
-        default: 'build',
       },
 
       // Signing Operations
@@ -685,8 +757,403 @@ export class KeepKey implements INodeType {
         default: 'getRandom',
       },
 
+      // NEW API PARAMETERS
+
+      // Device API Parameters
+      {
+        displayName: 'Label',
+        name: 'label',
+        type: 'string',
+        default: '',
+        description: 'Device label/name',
+        displayOptions: { show: { resource: ['device'], operation: ['initializeDevice'] } },
+      },
+      {
+        displayName: 'Passphrase Protection',
+        name: 'passphrase_protection',
+        type: 'boolean',
+        default: false,
+        description: 'Enable passphrase protection',
+        displayOptions: { show: { resource: ['device'], operation: ['initializeDevice', 'recoverDevice'] } },
+      },
+      {
+        displayName: 'Address Path',
+        name: 'address_n',
+        type: 'string',
+        default: "m/44'/0'/0'/0/0",
+        description: 'BIP32/BIP44 derivation path (comma-separated integers)',
+        displayOptions: { show: { resource: ['device'], operation: ['getPublicKey'] } },
+      },
+      {
+        displayName: 'Coin Name',
+        name: 'coin_name',
+        type: 'string',
+        default: 'Bitcoin',
+        description: 'Name of the cryptocurrency',
+        displayOptions: { show: { resource: ['device'], operation: ['getPublicKey'] } },
+      },
+      {
+        displayName: 'Show on Display',
+        name: 'show_display',
+        type: 'boolean',
+        default: false,
+        description: 'Show address on device display for verification',
+        displayOptions: { show: { resource: ['device'], operation: ['getPublicKey'] } },
+      },
+      {
+        displayName: 'Word Count',
+        name: 'word_count',
+        type: 'options',
+        options: [
+          { name: '12 words', value: 12 },
+          { name: '18 words', value: 18 },
+          { name: '24 words', value: 24 },
+        ],
+        default: 24,
+        description: 'Number of recovery seed words',
+        displayOptions: { show: { resource: ['device'], operation: ['recoverDevice'] } },
+      },
+      {
+        displayName: 'PIN Protection',
+        name: 'pin_protection',
+        type: 'boolean',
+        default: true,
+        description: 'Enable PIN protection',
+        displayOptions: { show: { resource: ['device'], operation: ['recoverDevice'] } },
+      },
+      {
+        displayName: 'Language',
+        name: 'language',
+        type: 'string',
+        default: 'english',
+        description: 'Recovery seed language',
+        displayOptions: { show: { resource: ['device'], operation: ['recoverDevice'] } },
+      },
+
+      // Wallet API Parameters
+      {
+        displayName: 'Coin',
+        name: 'coin',
+        type: 'string',
+        required: true,
+        displayOptions: {
+          show: {
+            resource: ['wallet'],
+            operation: ['getAddresses', 'generateAddress', 'getBalance', 'getUtxos', 'getExtendedPublicKey'],
+          },
+        },
+        default: 'bitcoin',
+        description: 'Cryptocurrency coin type (e.g., bitcoin, ethereum, litecoin)',
+      },
+      {
+        displayName: 'Limit',
+        name: 'limit',
+        type: 'number',
+        displayOptions: {
+          show: {
+            resource: ['wallet'],
+            operation: ['getAddresses'],
+          },
+        },
+        default: 10,
+        description: 'Maximum number of addresses to return',
+      },
+      {
+        displayName: 'Offset',
+        name: 'offset',
+        type: 'number',
+        displayOptions: {
+          show: {
+            resource: ['wallet'],
+            operation: ['getAddresses'],
+          },
+        },
+        default: 0,
+        description: 'Number of addresses to skip',
+      },
+      {
+        displayName: 'Derivation Path',
+        name: 'address_n',
+        type: 'string',
+        required: true,
+        displayOptions: {
+          show: {
+            resource: ['wallet'],
+            operation: ['generateAddress', 'getExtendedPublicKey'],
+          },
+        },
+        default: "m/44'/0'/0'/0/0",
+        description: 'BIP32/BIP44 derivation path for address generation',
+      },
+      {
+        displayName: 'Address',
+        name: 'address',
+        type: 'string',
+        required: true,
+        displayOptions: {
+          show: {
+            resource: ['wallet'],
+            operation: ['getBalance'],
+          },
+        },
+        default: '',
+        description: 'Wallet address to get balance for',
+      },
+      {
+        displayName: 'Addresses',
+        name: 'addresses',
+        type: 'string',
+        required: true,
+        displayOptions: {
+          show: {
+            resource: ['wallet'],
+            operation: ['getUtxos'],
+          },
+        },
+        default: '',
+        description: 'Comma-separated list of addresses to get UTXOs for',
+      },
+
+      // Transaction API Parameters
+      {
+        displayName: 'Transaction Inputs',
+        name: 'inputs',
+        type: 'json',
+        required: true,
+        default: '[]',
+        description: 'Array of transaction inputs with previous outputs and signatures',
+        displayOptions: {
+          show: {
+            resource: ['transaction'],
+            operation: ['signTransaction'],
+          },
+        },
+      },
+      {
+        displayName: 'Transaction Outputs',
+        name: 'outputs',
+        type: 'json',
+        required: true,
+        default: '[]',
+        description: 'Array of transaction outputs with addresses and amounts',
+        displayOptions: {
+          show: {
+            resource: ['transaction'],
+            operation: ['signTransaction'],
+          },
+        },
+      },
+      {
+        displayName: 'Transaction Hex',
+        name: 'tx_hex',
+        type: 'string',
+        required: true,
+        default: '',
+        description: 'Signed transaction in hexadecimal format',
+        displayOptions: {
+          show: {
+            resource: ['transaction'],
+            operation: ['broadcastTransaction'],
+          },
+        },
+      },
+      {
+        displayName: 'Transaction Size',
+        name: 'tx_size',
+        type: 'number',
+        required: true,
+        default: 250,
+        description: 'Estimated transaction size in bytes',
+        displayOptions: {
+          show: {
+            resource: ['transaction'],
+            operation: ['estimateFee'],
+          },
+        },
+      },
+      {
+        displayName: 'Fee Level',
+        name: 'fee_level',
+        type: 'options',
+        required: true,
+        options: [
+          {
+            name: 'Low',
+            value: 'low',
+            description: 'Low priority, slower confirmation',
+          },
+          {
+            name: 'Medium',
+            value: 'medium',
+            description: 'Medium priority, moderate confirmation time',
+          },
+          {
+            name: 'High',
+            value: 'high',
+            description: 'High priority, faster confirmation',
+          },
+        ],
+        default: 'medium',
+        description: 'Fee level for transaction priority',
+        displayOptions: {
+          show: {
+            resource: ['transaction'],
+            operation: ['estimateFee'],
+          },
+        },
+      },
+      {
+        displayName: 'Transaction ID',
+        name: 'txid',
+        type: 'string',
+        required: true,
+        default: '',
+        description: 'Transaction hash/ID to get details for',
+        displayOptions: {
+          show: {
+            resource: ['transaction'],
+            operation: ['getTransactionDetails'],
+          },
+        },
+      },
+
+      // Exchange API Parameters
+      {
+        displayName: 'From Coin',
+        name: 'fromCoin',
+        type: 'string',
+        required: true,
+        displayOptions: {
+          show: {
+            resource: ['exchange'],
+            operation: ['getExchangeRate', 'createExchangeOrder', 'getExchangeLimits'],
+          },
+        },
+        default: '',
+        placeholder: 'BTC',
+        description: 'The coin symbol to exchange from',
+      },
+      {
+        displayName: 'To Coin',
+        name: 'toCoin',
+        type: 'string',
+        required: true,
+        displayOptions: {
+          show: {
+            resource: ['exchange'],
+            operation: ['getExchangeRate', 'createExchangeOrder', 'getExchangeLimits'],
+          },
+        },
+        default: '',
+        placeholder: 'ETH',
+        description: 'The coin symbol to exchange to',
+      },
+      {
+        displayName: 'Return Address',
+        name: 'returnAddress',
+        type: 'string',
+        required: true,
+        displayOptions: {
+          show: {
+            resource: ['exchange'],
+            operation: ['createExchangeOrder'],
+          },
+        },
+        default: '',
+        description: 'The address to return funds to if exchange fails',
+      },
+      {
+        displayName: 'Destination Address',
+        name: 'destinationAddress',
+        type: 'string',
+        required: true,
+        displayOptions: {
+          show: {
+            resource: ['exchange'],
+            operation: ['createExchangeOrder'],
+          },
+        },
+        default: '',
+        description: 'The address to send the exchanged coins to',
+      },
+      {
+        displayName: 'Order ID',
+        name: 'orderId',
+        type: 'string',
+        required: true,
+        displayOptions: {
+          show: {
+            resource: ['exchange'],
+            operation: ['getExchangeOrder'],
+          },
+        },
+        default: '',
+        description: 'The exchange order ID to retrieve',
+      },
+
+      // Asset API Parameters
+      {
+        displayName: 'VS Currency',
+        name: 'vs_currency',
+        type: 'string',
+        required: false,
+        displayOptions: { show: { resource: ['asset'], operation: ['getMarketData'] } },
+        default: 'usd',
+        description: 'The currency to get market data in (default: USD)',
+      },
+      {
+        displayName: 'Days',
+        name: 'days',
+        type: 'number',
+        required: false,
+        displayOptions: { show: { resource: ['asset'], operation: ['getPriceHistory'] } },
+        default: 7,
+        description: 'Number of days of historical data (default: 7)',
+      },
+      {
+        displayName: 'Interval',
+        name: 'interval',
+        type: 'options',
+        required: false,
+        displayOptions: { show: { resource: ['asset'], operation: ['getPriceHistory'] } },
+        options: [
+          { name: '1 Hour', value: '1h' },
+          { name: '1 Day', value: '1d' },
+          { name: '1 Week', value: '1w' },
+        ],
+        default: '1d',
+        description: 'Data interval',
+      },
+      {
+        displayName: 'Contract Address',
+        name: 'contract_address',
+        type: 'string',
+        required: true,
+        displayOptions: { show: { resource: ['asset'], operation: ['addCustomToken'] } },
+        default: '',
+        description: 'The ERC-20 token contract address',
+      },
+      {
+        displayName: 'Symbol',
+        name: 'symbol',
+        type: 'string',
+        required: true,
+        displayOptions: { show: { resource: ['asset'], operation: ['addCustomToken'] } },
+        default: '',
+        description: 'The token symbol',
+      },
+      {
+        displayName: 'Decimals',
+        name: 'decimals',
+        type: 'number',
+        required: true,
+        displayOptions: { show: { resource: ['asset'], operation: ['addCustomToken'] } },
+        default: 18,
+        description: 'Number of decimal places for the token',
+      },
+
       // =====================
-      // COMMON PARAMETERS
+      // LEGACY COMMON PARAMETERS (preserved for backward compatibility)
       // =====================
 
       // Coin Selection (for multi-coin operations)
@@ -705,7 +1172,7 @@ export class KeepKey implements INodeType {
         default: 'bitcoin',
         displayOptions: {
           show: {
-            resource: ['bitcoinLike'],
+            resource: ['bitcoinLike', 'asset', 'transaction'],
           },
         },
       },
@@ -791,7 +1258,7 @@ export class KeepKey implements INodeType {
         description: 'Whether to display address on device for verification',
         displayOptions: {
           show: {
-            operation: ['getAddress', 'verifyAddress', 'showOnDevice'],
+            operation: ['getAddress', 'verifyAddress', 'showOnDevice', 'generateAddress'],
           },
         },
       },
@@ -843,7 +1310,7 @@ export class KeepKey implements INodeType {
         description: 'Amount to send (in native units)',
         displayOptions: {
           show: {
-            operation: ['signTransaction', 'send', 'sendTransaction', 'transfer', 'buildTransaction', 'delegate', 'undelegate'],
+            operation: ['signTransaction', 'send', 'sendTransaction', 'transfer', 'buildTransaction', 'delegate', 'undelegate', 'getExchangeRate', 'createExchangeOrder'],
           },
         },
       },
@@ -934,2026 +1401,3 @@ export class KeepKey implements INodeType {
         name: 'message',
         type: 'string',
         default: '',
-        description: 'Message to sign',
-        typeOptions: {
-          rows: 4,
-        },
-        displayOptions: {
-          show: {
-            operation: ['signMessage', 'verifyMessage', 'encryptMessage', 'decryptMessage'],
-          },
-        },
-      },
-      {
-        displayName: 'Signature',
-        name: 'signature',
-        type: 'string',
-        default: '',
-        description: 'Signature to verify',
-        displayOptions: {
-          show: {
-            operation: ['verifyMessage', 'verifySignature'],
-          },
-        },
-      },
-
-      // ERC-20 Token Parameters
-      {
-        displayName: 'Token Contract Address',
-        name: 'tokenAddress',
-        type: 'string',
-        default: '',
-        description: 'ERC-20 token contract address',
-        displayOptions: {
-          show: {
-            resource: ['erc20'],
-          },
-        },
-      },
-      {
-        displayName: 'Spender Address',
-        name: 'spenderAddress',
-        type: 'string',
-        default: '',
-        description: 'Address to approve for spending',
-        displayOptions: {
-          show: {
-            resource: ['erc20'],
-            operation: ['approve', 'getAllowance'],
-          },
-        },
-      },
-
-      // Swap Parameters
-      {
-        displayName: 'Sell Asset',
-        name: 'sellAsset',
-        type: 'string',
-        default: '',
-        description: 'Asset to sell (e.g., BTC.BTC, ETH.ETH)',
-        displayOptions: {
-          show: {
-            resource: ['swap', 'shapeshift', 'thorchain'],
-            operation: ['getQuote', 'execute', 'executeTrade', 'swap', 'estimate'],
-          },
-        },
-      },
-      {
-        displayName: 'Buy Asset',
-        name: 'buyAsset',
-        type: 'string',
-        default: '',
-        description: 'Asset to buy (e.g., ETH.ETH, THOR.RUNE)',
-        displayOptions: {
-          show: {
-            resource: ['swap', 'shapeshift', 'thorchain'],
-            operation: ['getQuote', 'execute', 'executeTrade', 'swap', 'estimate'],
-          },
-        },
-      },
-      {
-        displayName: 'Sell Amount',
-        name: 'sellAmount',
-        type: 'string',
-        default: '',
-        description: 'Amount to sell',
-        displayOptions: {
-          show: {
-            resource: ['swap', 'shapeshift', 'thorchain'],
-            operation: ['getQuote', 'execute', 'executeTrade', 'swap', 'estimate'],
-          },
-        },
-      },
-      {
-        displayName: 'Slippage Tolerance (%)',
-        name: 'slippageTolerance',
-        type: 'number',
-        default: 1,
-        description: 'Maximum acceptable slippage percentage',
-        displayOptions: {
-          show: {
-            resource: ['swap', 'shapeshift', 'thorchain', 'osmosis', 'defi'],
-            operation: ['getQuote', 'execute', 'executeTrade', 'swap', 'addLiquidity'],
-          },
-        },
-      },
-
-      // Staking Parameters
-      {
-        displayName: 'Validator Address',
-        name: 'validatorAddress',
-        type: 'string',
-        default: '',
-        description: 'Validator address for delegation',
-        displayOptions: {
-          show: {
-            resource: ['staking', 'cosmos', 'thorchain', 'osmosis'],
-            operation: ['delegate', 'undelegate', 'redelegate', 'getValidatorInfo'],
-          },
-        },
-      },
-      {
-        displayName: 'New Validator Address',
-        name: 'newValidatorAddress',
-        type: 'string',
-        default: '',
-        description: 'New validator for redelegation',
-        displayOptions: {
-          show: {
-            resource: ['staking'],
-            operation: ['redelegate'],
-          },
-        },
-      },
-
-      // PIN Parameters
-      {
-        displayName: 'PIN',
-        name: 'pin',
-        type: 'string',
-        default: '',
-        typeOptions: {
-          password: true,
-        },
-        description: 'Device PIN (matrix-encoded)',
-        displayOptions: {
-          show: {
-            resource: ['pin'],
-            operation: ['enterPin', 'changePin'],
-          },
-        },
-      },
-      {
-        displayName: 'New PIN',
-        name: 'newPin',
-        type: 'string',
-        default: '',
-        typeOptions: {
-          password: true,
-        },
-        description: 'New PIN to set',
-        displayOptions: {
-          show: {
-            resource: ['pin'],
-            operation: ['changePin'],
-          },
-        },
-      },
-
-      // Passphrase Parameters
-      {
-        displayName: 'Passphrase',
-        name: 'passphrase',
-        type: 'string',
-        default: '',
-        typeOptions: {
-          password: true,
-        },
-        description: 'BIP39 passphrase',
-        displayOptions: {
-          show: {
-            resource: ['passphrase'],
-            operation: ['enter'],
-          },
-        },
-      },
-
-      // Device Settings
-      {
-        displayName: 'Device Label',
-        name: 'label',
-        type: 'string',
-        default: '',
-        description: 'Label to set on device',
-        displayOptions: {
-          show: {
-            resource: ['device'],
-            operation: ['setLabel', 'applySettings', 'resetDevice'],
-          },
-        },
-      },
-      {
-        displayName: 'Language',
-        name: 'language',
-        type: 'options',
-        options: [
-          { name: 'English', value: 'en-US' },
-          { name: 'Spanish', value: 'es-ES' },
-          { name: 'French', value: 'fr-FR' },
-          { name: 'German', value: 'de-DE' },
-          { name: 'Chinese', value: 'zh-CN' },
-          { name: 'Japanese', value: 'ja-JP' },
-        ],
-        default: 'en-US',
-        displayOptions: {
-          show: {
-            resource: ['device'],
-            operation: ['setLanguage', 'applySettings'],
-          },
-        },
-      },
-      {
-        displayName: 'Auto Lock Delay (seconds)',
-        name: 'autoLockDelay',
-        type: 'number',
-        default: 600,
-        description: 'Auto-lock timeout in seconds (0 to disable)',
-        displayOptions: {
-          show: {
-            resource: ['device', 'security'],
-            operation: ['setAutoLockDelay', 'setAutoLock', 'applySettings'],
-          },
-        },
-      },
-
-      // Recovery Parameters
-      {
-        displayName: 'Word Count',
-        name: 'wordCount',
-        type: 'options',
-        options: [
-          { name: '12 Words', value: 12 },
-          { name: '18 Words', value: 18 },
-          { name: '24 Words', value: 24 },
-        ],
-        default: 12,
-        description: 'Number of recovery words',
-        displayOptions: {
-          show: {
-            resource: ['recovery', 'device'],
-            operation: ['startRecovery', 'resetDevice'],
-          },
-        },
-      },
-      {
-        displayName: 'Recovery Word',
-        name: 'recoveryWord',
-        type: 'string',
-        default: '',
-        typeOptions: {
-          password: true,
-        },
-        description: 'Recovery word to enter',
-        displayOptions: {
-          show: {
-            resource: ['recovery'],
-            operation: ['enterWord'],
-          },
-        },
-      },
-      {
-        displayName: 'Enable PIN Protection',
-        name: 'pinProtection',
-        type: 'boolean',
-        default: true,
-        description: 'Whether to enable PIN protection during setup',
-        displayOptions: {
-          show: {
-            resource: ['device', 'recovery'],
-            operation: ['resetDevice', 'startRecovery'],
-          },
-        },
-      },
-
-      // Utility Parameters
-      {
-        displayName: 'Bytes',
-        name: 'bytes',
-        type: 'number',
-        default: 32,
-        description: 'Number of random bytes to generate',
-        displayOptions: {
-          show: {
-            resource: ['utility', 'device'],
-            operation: ['getRandom', 'getEntropy'],
-          },
-        },
-      },
-      {
-        displayName: 'Data',
-        name: 'data',
-        type: 'string',
-        default: '',
-        description: 'Data to process',
-        typeOptions: {
-          rows: 4,
-        },
-        displayOptions: {
-          show: {
-            resource: ['utility'],
-            operation: ['hashData', 'cipherKeyValue'],
-          },
-        },
-      },
-      {
-        displayName: 'Hash Algorithm',
-        name: 'hashAlgorithm',
-        type: 'options',
-        options: [
-          { name: 'SHA-256', value: 'sha256' },
-          { name: 'SHA-512', value: 'sha512' },
-          { name: 'RIPEMD-160', value: 'ripemd160' },
-          { name: 'Keccak-256', value: 'keccak256' },
-        ],
-        default: 'sha256',
-        displayOptions: {
-          show: {
-            resource: ['utility'],
-            operation: ['hashData'],
-          },
-        },
-      },
-
-      // Transaction ID for lookups
-      {
-        displayName: 'Transaction ID',
-        name: 'txId',
-        type: 'string',
-        default: '',
-        description: 'Transaction hash/ID',
-        displayOptions: {
-          show: {
-            operation: ['getTransaction', 'getStatus', 'getDetails', 'getTransactionReceipt', 'getTradeStatus'],
-          },
-        },
-      },
-
-      // Address for validation/lookup
-      {
-        displayName: 'Address',
-        name: 'address',
-        type: 'string',
-        default: '',
-        description: 'Address to validate or lookup',
-        displayOptions: {
-          show: {
-            operation: ['validate', 'lookup', 'verifyAddress', 'getBalance', 'getNonce'],
-          },
-        },
-      },
-
-      // Raw Transaction
-      {
-        displayName: 'Raw Transaction',
-        name: 'rawTransaction',
-        type: 'string',
-        default: '',
-        description: 'Raw transaction hex',
-        typeOptions: {
-          rows: 4,
-        },
-        displayOptions: {
-          show: {
-            operation: ['broadcast', 'decode', 'sign'],
-          },
-        },
-      },
-    ],
-  };
-
-  async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    const items = this.getInputData();
-    const returnData: INodeExecutionData[] = [];
-    const resource = this.getNodeParameter('resource', 0) as string;
-    const operation = this.getNodeParameter('operation', 0) as string;
-
-    // Get connection configuration
-    const connectionType = this.getNodeParameter('connectionType', 0) as string;
-    let bridgeUrl: string;
-    if (connectionType === 'bridge') {
-      bridgeUrl = this.getNodeParameter('bridgeUrl', 0) as string;
-    } else {
-      bridgeUrl = this.getNodeParameter('desktopUrl', 0) as string;
-    }
-
-    // Create client configuration
-    const config: TransportConfig = {
-      connectionType: connectionType === 'bridge' ? 'keepkeyBridge' : 'keepkeyDesktop',
-      bridgeUrl,
-      timeout: 30000,
-    };
-
-    const client = new KeepKeyClient(config);
-
-    try {
-      // Connect to device
-      await client.connect();
-
-      for (let i = 0; i < items.length; i++) {
-        try {
-          let result: IDataObject;
-
-          // Route to appropriate handler
-          switch (resource) {
-            case 'device':
-              result = await executeDeviceOperation(this, client, operation, i);
-              break;
-            case 'account':
-              result = await executeAccountOperation(this, client, operation, i);
-              break;
-            case 'bitcoin':
-              result = await executeBitcoinOperation(this, client, operation, i);
-              break;
-            case 'bitcoinLike':
-              result = await executeBitcoinLikeOperation(this, client, operation, i);
-              break;
-            case 'ethereum':
-              result = await executeEthereumOperation(this, client, operation, i);
-              break;
-            case 'evmChains':
-              result = await executeEvmChainsOperation(this, client, operation, i);
-              break;
-            case 'erc20':
-              result = await executeErc20Operation(this, client, operation, i);
-              break;
-            case 'cosmos':
-              result = await executeCosmosOperation(this, client, operation, i);
-              break;
-            case 'thorchain':
-              result = await executeThorchainOperation(this, client, operation, i);
-              break;
-            case 'osmosis':
-              result = await executeOsmosisOperation(this, client, operation, i);
-              break;
-            case 'address':
-              result = await executeAddressOperation(this, client, operation, i);
-              break;
-            case 'transaction':
-              result = await executeTransactionOperation(this, client, operation, i);
-              break;
-            case 'signing':
-              result = await executeSigningOperation(this, client, operation, i);
-              break;
-            case 'shapeshift':
-              result = await executeShapeshiftOperation(this, client, operation, i);
-              break;
-            case 'swap':
-              result = await executeSwapOperation(this, client, operation, i);
-              break;
-            case 'staking':
-              result = await executeStakingOperation(this, client, operation, i);
-              break;
-            case 'defi':
-              result = await executeDefiOperation(this, client, operation, i);
-              break;
-            case 'recovery':
-              result = await executeRecoveryOperation(this, client, operation, i);
-              break;
-            case 'pin':
-              result = await executePinOperation(this, client, operation, i);
-              break;
-            case 'passphrase':
-              result = await executePassphraseOperation(this, client, operation, i);
-              break;
-            case 'firmware':
-              result = await executeFirmwareOperation(this, client, operation, i);
-              break;
-            case 'security':
-              result = await executeSecurityOperation(this, client, operation, i);
-              break;
-            case 'utility':
-              result = await executeUtilityOperation(this, client, operation, i);
-              break;
-            default:
-              throw new NodeOperationError(this.getNode(), `Unknown resource: ${resource}`);
-          }
-
-          returnData.push({ json: result });
-        } catch (error) {
-          if (this.continueOnFail()) {
-            returnData.push({ json: { error: (error as Error).message } });
-          } else {
-            throw error;
-          }
-        }
-      }
-    } finally {
-      // Always disconnect
-      try {
-        await client.disconnect();
-      } catch {
-        // Ignore disconnect errors
-      }
-    }
-
-    return [returnData];
-  }
-}
-
-// =====================
-// OPERATION HANDLERS
-// =====================
-
-async function executeDeviceOperation(
-  ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  switch (operation) {
-    case 'initialize':
-      await client.connect();
-      return { success: true, message: 'Device initialized' };
-
-    case 'getFeatures': {
-      const features = await client.getFeatures();
-      return features as unknown as IDataObject;
-    }
-
-    case 'ping': {
-      const result = await client.ping('n8n-keepkey');
-      return { success: true, message: result };
-    }
-
-    case 'getEntropy': {
-      const bytes = ctx.getNodeParameter('bytes', itemIndex, 32) as number;
-      const entropy = await client.getEntropy(bytes);
-      return { entropy: entropy.toString('hex'), bytes };
-    }
-
-    case 'clearSession':
-      await client.clearSession();
-      return { success: true, message: 'Session cleared' };
-
-    case 'cancel':
-      await client.cancel();
-      return { success: true, message: 'Operation cancelled' };
-
-    case 'wipeDevice':
-      await client.wipeDevice();
-      return { success: true, message: 'Device wiped' };
-
-    case 'resetDevice': {
-      const label = ctx.getNodeParameter('label', itemIndex, '') as string;
-      const pinProtection = ctx.getNodeParameter('pinProtection', itemIndex, true) as boolean;
-      const wordCount = ctx.getNodeParameter('wordCount', itemIndex, 12) as number;
-      await client.resetDevice({
-        label,
-        pin_protection: pinProtection,
-        strength: wordCount === 24 ? 256 : wordCount === 18 ? 192 : 128,
-      });
-      return { success: true, message: 'Device reset initiated' };
-    }
-
-    case 'applySettings': {
-      const settings: IDataObject = {};
-      const label = ctx.getNodeParameter('label', itemIndex, '') as string;
-      if (label) settings.label = label;
-      const language = ctx.getNodeParameter('language', itemIndex, '') as string;
-      if (language) settings.language = language;
-      const autoLockDelay = ctx.getNodeParameter('autoLockDelay', itemIndex, 0) as number;
-      if (autoLockDelay > 0) settings.auto_lock_delay_ms = autoLockDelay * 1000;
-      await client.applySettings(settings);
-      return { success: true, message: 'Settings applied', settings };
-    }
-
-    case 'getDeviceId': {
-      const features = await client.getFeatures();
-      return { deviceId: features?.device_id || 'unknown' };
-    }
-
-    case 'getLabel': {
-      const features = await client.getFeatures();
-      return { label: features?.label || '' };
-    }
-
-    case 'setLabel': {
-      const label = ctx.getNodeParameter('label', itemIndex) as string;
-      await client.applySettings({ label });
-      return { success: true, label };
-    }
-
-    case 'getLanguage': {
-      const features = await client.getFeatures();
-      return { language: features?.language || 'en-US' };
-    }
-
-    case 'setLanguage': {
-      const language = ctx.getNodeParameter('language', itemIndex) as string;
-      await client.applySettings({ language });
-      return { success: true, language };
-    }
-
-    case 'enablePassphrase':
-      await client.applySettings({ use_passphrase: true });
-      return { success: true, passphraseEnabled: true };
-
-    case 'disablePassphrase':
-      await client.applySettings({ use_passphrase: false });
-      return { success: true, passphraseEnabled: false };
-
-    case 'setAutoLockDelay': {
-      const delay = ctx.getNodeParameter('autoLockDelay', itemIndex) as number;
-      await client.applySettings({ auto_lock_delay_ms: delay * 1000 });
-      return { success: true, autoLockDelay: delay };
-    }
-
-    case 'getCoinTable':
-      return {
-        bitcoinLike: Object.keys(BITCOIN_LIKE_COINS),
-        evmChains: Object.keys(EVM_CHAINS),
-        cosmos: Object.keys(COSMOS_CHAINS),
-      };
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executeAccountOperation(
-  ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  const accountIndex = ctx.getNodeParameter('accountIndex', itemIndex, 0) as number;
-  const useCustomPath = ctx.getNodeParameter('useCustomPath', itemIndex, false) as boolean;
-  const customPath = useCustomPath ? ctx.getNodeParameter('derivationPath', itemIndex) as string : null;
-
-  switch (operation) {
-    case 'getPublicKey': {
-      const path = customPath || getDerivationPath('bitcoin', 'bip84', accountIndex);
-      const pathArray = pathToArray(path);
-      const response = await client.call(MESSAGE_TYPES.GetPublicKey, { addressN: pathArray });
-      return {
-        publicKey: (response as unknown as IDataObject).publicKey,
-        path,
-      };
-    }
-
-    case 'getAddress': {
-      const showOnDevice = ctx.getNodeParameter('showOnDevice', itemIndex, false) as boolean;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || getDerivationPath('bitcoin', 'bip84', accountIndex, addressIndex);
-      const pathArray = pathToArray(path);
-      const response = await client.call(MESSAGE_TYPES.GetAddress, {
-        addressN: pathArray,
-        coinName: 'Bitcoin',
-        showDisplay: showOnDevice,
-        scriptType: 'SPENDWITNESS',
-      });
-      return {
-        address: (response as unknown as IDataObject).address,
-        path,
-      };
-    }
-
-    case 'getXpub': {
-      const path = customPath || getDerivationPath('bitcoin', 'bip84', accountIndex);
-      const pathArray = pathToArray(path);
-      const response = await client.call(MESSAGE_TYPES.GetPublicKey, {
-        addressN: pathArray,
-        coinName: 'Bitcoin',
-      });
-      return {
-        xpub: (response as unknown as IDataObject).xpub,
-        path,
-      };
-    }
-
-    case 'verifyAddress': {
-      const address = ctx.getNodeParameter('address', itemIndex) as string;
-      const path = customPath || getDerivationPath('bitcoin', 'bip84', accountIndex);
-      const pathArray = pathToArray(path);
-      await client.call(MESSAGE_TYPES.GetAddress, {
-        addressN: pathArray,
-        coinName: 'Bitcoin',
-        showDisplay: true,
-        scriptType: 'SPENDWITNESS',
-      });
-      return { verified: true, address, path };
-    }
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executeBitcoinOperation(
-  ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  const accountIndex = ctx.getNodeParameter('accountIndex', itemIndex, 0) as number;
-  const addressType = ctx.getNodeParameter('addressType', itemIndex, 'segwit') as string;
-  const useCustomPath = ctx.getNodeParameter('useCustomPath', itemIndex, false) as boolean;
-  const customPath = useCustomPath ? ctx.getNodeParameter('derivationPath', itemIndex) as string : null;
-
-  const pathTemplate = addressType === 'segwit' ? 'bip84' : 
-                       addressType === 'nested-segwit' ? 'bip49' : 
-                       addressType === 'taproot' ? 'bip86' : 'bip44';
-
-  switch (operation) {
-    case 'getAddress': {
-      const showOnDevice = ctx.getNodeParameter('showOnDevice', itemIndex, false) as boolean;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || getDerivationPath('bitcoin', pathTemplate, accountIndex, addressIndex);
-      const pathArray = pathToArray(path);
-      const response = await client.call(MESSAGE_TYPES.GetAddress, {
-        addressN: pathArray,
-        coinName: 'Bitcoin',
-        showDisplay: showOnDevice,
-        scriptType: addressTypeToScriptType(addressType),
-      });
-      return {
-        address: (response as unknown as IDataObject).address,
-        path,
-        addressType,
-      };
-    }
-
-    case 'signTransaction': {
-      const toAddress = ctx.getNodeParameter('toAddress', itemIndex) as string;
-      const amount = ctx.getNodeParameter('amount', itemIndex) as string;
-      const feeRate = ctx.getNodeParameter('feeRate', itemIndex, 10) as number;
-      
-      if (!isValidBitcoinAddress(toAddress)) {
-        throw new NodeOperationError(ctx.getNode(), 'Invalid Bitcoin address');
-      }
-      
-      return {
-        status: 'signing_required',
-        message: 'Transaction signing requires UTXOs and complete transaction data',
-        toAddress,
-        amount: satoshisToBtc(btcToSatoshis(amount)),
-        feeRate,
-        satoshis: btcToSatoshis(amount),
-      };
-    }
-
-    case 'signMessage': {
-      const message = ctx.getNodeParameter('message', itemIndex) as string;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || getDerivationPath('bitcoin', pathTemplate, accountIndex, addressIndex);
-      const pathArray = pathToArray(path);
-      
-      const response = await client.call(MESSAGE_TYPES.SignMessage, {
-        addressN: pathArray,
-        message: Buffer.from(message).toString('hex'),
-        coinName: 'Bitcoin',
-        scriptType: addressTypeToScriptType(addressType),
-      });
-      
-      return {
-        message,
-        signature: (response as unknown as IDataObject).signature,
-        address: (response as unknown as IDataObject).address,
-        path,
-      };
-    }
-
-    case 'verifyMessage': {
-      const message = ctx.getNodeParameter('message', itemIndex) as string;
-      const signature = ctx.getNodeParameter('signature', itemIndex) as string;
-      const address = ctx.getNodeParameter('address', itemIndex) as string;
-      
-      const response = await client.call(MESSAGE_TYPES.VerifyMessage, {
-        address,
-        signature,
-        message: Buffer.from(message).toString('hex'),
-        coinName: 'Bitcoin',
-      });
-      
-      return {
-        valid: (response as unknown as IDataObject).success === true,
-        message,
-        address,
-      };
-    }
-
-    case 'getXpub': {
-      const path = customPath || getDerivationPath('bitcoin', pathTemplate, accountIndex);
-      const pathArray = pathToArray(path);
-      const response = await client.call(MESSAGE_TYPES.GetPublicKey, {
-        addressN: pathArray,
-        coinName: 'Bitcoin',
-      });
-      return {
-        xpub: (response as unknown as IDataObject).xpub,
-        path,
-        addressType,
-      };
-    }
-
-    case 'estimateFee': {
-      const feeRate = ctx.getNodeParameter('feeRate', itemIndex, 10) as number;
-      // Estimate for typical 1-input, 2-output transaction
-      const estimatedSize = 140; // vbytes
-      const estimatedFee = estimatedSize * feeRate;
-      return {
-        feeRate,
-        estimatedSize,
-        estimatedFeeSatoshis: estimatedFee,
-        estimatedFeeBtc: satoshisToBtc(estimatedFee),
-      };
-    }
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executeBitcoinLikeOperation(
-  ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  const coin = ctx.getNodeParameter('coin', itemIndex, 'bitcoin') as string;
-  const coinConfig = BITCOIN_LIKE_COINS[coin.toUpperCase()] || BITCOIN_LIKE_COINS.BTC;
-  const accountIndex = ctx.getNodeParameter('accountIndex', itemIndex, 0) as number;
-  const useCustomPath = ctx.getNodeParameter('useCustomPath', itemIndex, false) as boolean;
-  const customPath = useCustomPath ? ctx.getNodeParameter('derivationPath', itemIndex) as string : null;
-
-  switch (operation) {
-    case 'getAddress': {
-      const showOnDevice = ctx.getNodeParameter('showOnDevice', itemIndex, false) as boolean;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || `m/44'/${coinConfig.slip44}'/${accountIndex}'/0/${addressIndex}`;
-      const pathArray = pathToArray(path);
-      
-      const response = await client.call(MESSAGE_TYPES.GetAddress, {
-        addressN: pathArray,
-        coinName: coinConfig.name,
-        showDisplay: showOnDevice,
-        scriptType: 'SPENDADDRESS',
-      });
-      
-      return {
-        address: (response as unknown as IDataObject).address,
-        path,
-        coin: coinConfig.name,
-        symbol: coinConfig.symbol,
-      };
-    }
-
-    case 'signMessage': {
-      const message = ctx.getNodeParameter('message', itemIndex) as string;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || `m/44'/${coinConfig.slip44}'/${accountIndex}'/0/${addressIndex}`;
-      const pathArray = pathToArray(path);
-      
-      const response = await client.call(MESSAGE_TYPES.SignMessage, {
-        addressN: pathArray,
-        message: Buffer.from(message).toString('hex'),
-        coinName: coinConfig.name,
-        scriptType: 'SPENDADDRESS',
-      });
-      
-      return {
-        message,
-        signature: (response as unknown as IDataObject).signature,
-        address: (response as unknown as IDataObject).address,
-        path,
-        coin: coinConfig.name,
-      };
-    }
-
-    case 'getXpub': {
-      const path = customPath || `m/44'/${coinConfig.slip44}'/${accountIndex}'`;
-      const pathArray = pathToArray(path);
-      const response = await client.call(MESSAGE_TYPES.GetPublicKey, {
-        addressN: pathArray,
-        coinName: coinConfig.name,
-      });
-      return {
-        xpub: (response as unknown as IDataObject).xpub,
-        path,
-        coin: coinConfig.name,
-      };
-    }
-
-    default:
-      return { status: 'not_implemented', operation, coin: coinConfig.name };
-  }
-}
-
-async function executeEthereumOperation(
-  ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  const accountIndex = ctx.getNodeParameter('accountIndex', itemIndex, 0) as number;
-  const useCustomPath = ctx.getNodeParameter('useCustomPath', itemIndex, false) as boolean;
-  const customPath = useCustomPath ? ctx.getNodeParameter('derivationPath', itemIndex) as string : null;
-
-  switch (operation) {
-    case 'getAddress': {
-      const showOnDevice = ctx.getNodeParameter('showOnDevice', itemIndex, false) as boolean;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || `m/44'/60'/${accountIndex}'/0/${addressIndex}`;
-      const pathArray = pathToArray(path);
-      
-      const response = await client.call(MESSAGE_TYPES.EthereumGetAddress, {
-        addressN: pathArray,
-        showDisplay: showOnDevice,
-      });
-      
-      return {
-        address: (response as unknown as IDataObject).address,
-        path,
-        chain: 'ethereum',
-        chainId: 1,
-      };
-    }
-
-    case 'signTransaction': {
-      const toAddress = ctx.getNodeParameter('toAddress', itemIndex) as string;
-      const amount = ctx.getNodeParameter('amount', itemIndex) as string;
-      const gasLimit = ctx.getNodeParameter('gasLimit', itemIndex, 21000) as number;
-      const useEip1559 = ctx.getNodeParameter('useEip1559', itemIndex, true) as boolean;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || `m/44'/60'/${accountIndex}'/0/${addressIndex}`;
-      const pathArray = pathToArray(path);
-      
-      if (!isValidEthereumAddress(toAddress)) {
-        throw new NodeOperationError(ctx.getNode(), 'Invalid Ethereum address');
-      }
-      
-      const weiAmount = ethToWei(amount);
-      
-      const txParams: IDataObject = {
-        addressN: pathArray,
-        to: toAddress,
-        value: weiAmount,
-        gasLimit,
-        chainId: 1,
-      };
-      
-      if (useEip1559) {
-        const maxPriorityFee = ctx.getNodeParameter('maxPriorityFee', itemIndex, '1.5') as string;
-        const maxFee = ctx.getNodeParameter('maxFee', itemIndex, '50') as string;
-        txParams.maxPriorityFeePerGas = gweiToWei(maxPriorityFee);
-        txParams.maxFeePerGas = gweiToWei(maxFee);
-        txParams.txType = 2;
-      } else {
-        const gasPrice = ctx.getNodeParameter('gasPrice', itemIndex, '') as string;
-        if (gasPrice) {
-          txParams.gasPrice = gweiToWei(gasPrice);
-        }
-      }
-      
-      const response = await client.call(MESSAGE_TYPES.EthereumSignTx, txParams);
-      
-      return {
-        ...(response as unknown as IDataObject),
-        toAddress,
-        amount,
-        weiAmount,
-        path,
-      };
-    }
-
-    case 'signMessage': {
-      const message = ctx.getNodeParameter('message', itemIndex) as string;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || `m/44'/60'/${accountIndex}'/0/${addressIndex}`;
-      const pathArray = pathToArray(path);
-      
-      const response = await client.call(MESSAGE_TYPES.EthereumSignMessage, {
-        addressN: pathArray,
-        message: Buffer.from(message).toString('hex'),
-      });
-      
-      return {
-        message,
-        signature: (response as unknown as IDataObject).signature,
-        address: (response as unknown as IDataObject).address,
-        path,
-      };
-    }
-
-    case 'signTypedData': {
-      const message = ctx.getNodeParameter('message', itemIndex) as string;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || `m/44'/60'/${accountIndex}'/0/${addressIndex}`;
-      const pathArray = pathToArray(path);
-      
-      let typedData: IDataObject;
-      try {
-        typedData = JSON.parse(message) as IDataObject;
-      } catch {
-        throw new NodeOperationError(ctx.getNode(), 'Invalid typed data JSON');
-      }
-      
-      const response = await client.call(MESSAGE_TYPES.EthereumSignTypedData, {
-        addressN: pathArray,
-        data: typedData,
-      });
-      
-      return {
-        typedData,
-        signature: (response as unknown as IDataObject).signature,
-        address: (response as unknown as IDataObject).address,
-        path,
-      };
-    }
-
-    case 'verifyMessage': {
-      const message = ctx.getNodeParameter('message', itemIndex) as string;
-      const signature = ctx.getNodeParameter('signature', itemIndex) as string;
-      const address = ctx.getNodeParameter('address', itemIndex) as string;
-      
-      const response = await client.call(MESSAGE_TYPES.EthereumVerifyMessage, {
-        address,
-        signature,
-        message: Buffer.from(message).toString('hex'),
-      });
-      
-      return {
-        valid: (response as unknown as IDataObject).success === true,
-        message,
-        address,
-      };
-    }
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executeEvmChainsOperation(
-  ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  const chain = ctx.getNodeParameter('chain', itemIndex, 'ethereum') as string;
-  const chainConfig = EVM_CHAINS[chain.toUpperCase()] || EVM_CHAINS.ETH;
-  const accountIndex = ctx.getNodeParameter('accountIndex', itemIndex, 0) as number;
-  const useCustomPath = ctx.getNodeParameter('useCustomPath', itemIndex, false) as boolean;
-  const customPath = useCustomPath ? ctx.getNodeParameter('derivationPath', itemIndex) as string : null;
-
-  switch (operation) {
-    case 'getAddress': {
-      const showOnDevice = ctx.getNodeParameter('showOnDevice', itemIndex, false) as boolean;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || `m/44'/60'/${accountIndex}'/0/${addressIndex}`;
-      const pathArray = pathToArray(path);
-      
-      const response = await client.call(MESSAGE_TYPES.EthereumGetAddress, {
-        addressN: pathArray,
-        showDisplay: showOnDevice,
-      });
-      
-      return {
-        address: (response as unknown as IDataObject).address,
-        path,
-        chain: chainConfig.name,
-        chainId: chainConfig.chainId,
-        symbol: chainConfig.symbol,
-      };
-    }
-
-    case 'signTransaction': {
-      const toAddress = ctx.getNodeParameter('toAddress', itemIndex) as string;
-      const amount = ctx.getNodeParameter('amount', itemIndex) as string;
-      const gasLimit = ctx.getNodeParameter('gasLimit', itemIndex, 21000) as number;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || `m/44'/60'/${accountIndex}'/0/${addressIndex}`;
-      const pathArray = pathToArray(path);
-      
-      if (!isValidEthereumAddress(toAddress)) {
-        throw new NodeOperationError(ctx.getNode(), 'Invalid address');
-      }
-      
-      const weiAmount = ethToWei(amount);
-      
-      const response = await client.call(MESSAGE_TYPES.EthereumSignTx, {
-        addressN: pathArray,
-        to: toAddress,
-        value: weiAmount,
-        gasLimit,
-        chainId: chainConfig.chainId,
-      });
-      
-      return {
-        ...(response as unknown as IDataObject),
-        chain: chainConfig.name,
-        chainId: chainConfig.chainId,
-        toAddress,
-        amount,
-      };
-    }
-
-    case 'signMessage': {
-      const message = ctx.getNodeParameter('message', itemIndex) as string;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || `m/44'/60'/${accountIndex}'/0/${addressIndex}`;
-      const pathArray = pathToArray(path);
-      
-      const response = await client.call(MESSAGE_TYPES.EthereumSignMessage, {
-        addressN: pathArray,
-        message: Buffer.from(message).toString('hex'),
-      });
-      
-      return {
-        message,
-        signature: (response as unknown as IDataObject).signature,
-        address: (response as unknown as IDataObject).address,
-        path,
-        chain: chainConfig.name,
-      };
-    }
-
-    default:
-      return { status: 'not_implemented', operation, chain: chainConfig.name };
-  }
-}
-
-async function executeErc20Operation(
-  ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  const chain = ctx.getNodeParameter('chain', itemIndex, 'ethereum') as string;
-  const chainConfig = EVM_CHAINS[chain.toUpperCase()] || EVM_CHAINS.ETH;
-  const tokenAddress = ctx.getNodeParameter('tokenAddress', itemIndex) as string;
-  const accountIndex = ctx.getNodeParameter('accountIndex', itemIndex, 0) as number;
-  const useCustomPath = ctx.getNodeParameter('useCustomPath', itemIndex, false) as boolean;
-  const customPath = useCustomPath ? ctx.getNodeParameter('derivationPath', itemIndex) as string : null;
-
-  if (!isValidEthereumAddress(tokenAddress)) {
-    throw new NodeOperationError(ctx.getNode(), 'Invalid token contract address');
-  }
-
-  switch (operation) {
-    case 'transfer': {
-      const toAddress = ctx.getNodeParameter('toAddress', itemIndex) as string;
-      const amount = ctx.getNodeParameter('amount', itemIndex) as string;
-      const gasLimit = ctx.getNodeParameter('gasLimit', itemIndex, 65000) as number;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || `m/44'/60'/${accountIndex}'/0/${addressIndex}`;
-      const pathArray = pathToArray(path);
-      
-      if (!isValidEthereumAddress(toAddress)) {
-        throw new NodeOperationError(ctx.getNode(), 'Invalid recipient address');
-      }
-      
-      const data = buildErc20TransferData(toAddress, amount);
-      
-      const response = await client.call(MESSAGE_TYPES.EthereumSignTx, {
-        addressN: pathArray,
-        to: tokenAddress,
-        value: '0',
-        gasLimit,
-        data,
-        chainId: chainConfig.chainId,
-      });
-      
-      return {
-        ...(response as unknown as IDataObject),
-        tokenAddress,
-        toAddress,
-        amount,
-        chain: chainConfig.name,
-      };
-    }
-
-    case 'approve': {
-      const spenderAddress = ctx.getNodeParameter('spenderAddress', itemIndex) as string;
-      const amount = ctx.getNodeParameter('amount', itemIndex) as string;
-      const gasLimit = ctx.getNodeParameter('gasLimit', itemIndex, 50000) as number;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || `m/44'/60'/${accountIndex}'/0/${addressIndex}`;
-      const pathArray = pathToArray(path);
-      
-      if (!isValidEthereumAddress(spenderAddress)) {
-        throw new NodeOperationError(ctx.getNode(), 'Invalid spender address');
-      }
-      
-      const data = buildErc20ApproveData(spenderAddress, amount);
-      
-      const response = await client.call(MESSAGE_TYPES.EthereumSignTx, {
-        addressN: pathArray,
-        to: tokenAddress,
-        value: '0',
-        gasLimit,
-        data,
-        chainId: chainConfig.chainId,
-      });
-      
-      return {
-        ...(response as unknown as IDataObject),
-        tokenAddress,
-        spenderAddress,
-        amount,
-        chain: chainConfig.name,
-      };
-    }
-
-    default:
-      return { status: 'not_implemented', operation, tokenAddress };
-  }
-}
-
-async function executeCosmosOperation(
-  ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  const accountIndex = ctx.getNodeParameter('accountIndex', itemIndex, 0) as number;
-  const useCustomPath = ctx.getNodeParameter('useCustomPath', itemIndex, false) as boolean;
-  const customPath = useCustomPath ? ctx.getNodeParameter('derivationPath', itemIndex) as string : null;
-
-  switch (operation) {
-    case 'getAddress': {
-      const showOnDevice = ctx.getNodeParameter('showOnDevice', itemIndex, false) as boolean;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || `m/44'/118'/${accountIndex}'/0/${addressIndex}`;
-      const pathArray = pathToArray(path);
-      
-      const response = await client.call(MESSAGE_TYPES.CosmosGetAddress, {
-        addressN: pathArray,
-        showDisplay: showOnDevice,
-      });
-      
-      return {
-        address: (response as unknown as IDataObject).address,
-        path,
-        chain: 'cosmos',
-      };
-    }
-
-    case 'signTransaction': {
-      const toAddress = ctx.getNodeParameter('toAddress', itemIndex) as string;
-      const amount = ctx.getNodeParameter('amount', itemIndex) as string;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || `m/44'/118'/${accountIndex}'/0/${addressIndex}`;
-      const pathArray = pathToArray(path);
-      
-      if (!isValidCosmosAddress(toAddress)) {
-        throw new NodeOperationError(ctx.getNode(), 'Invalid Cosmos address');
-      }
-      
-      return {
-        status: 'signing_required',
-        message: 'Cosmos transaction signing requires account info and chain details',
-        toAddress,
-        amount,
-        path: pathArrayToString(pathArray),
-      };
-    }
-
-    case 'send': {
-      const toAddress = ctx.getNodeParameter('toAddress', itemIndex) as string;
-      const amount = ctx.getNodeParameter('amount', itemIndex) as string;
-      
-      if (!isValidCosmosAddress(toAddress)) {
-        throw new NodeOperationError(ctx.getNode(), 'Invalid Cosmos address');
-      }
-      
-      return {
-        status: 'requires_broadcast',
-        message: 'Transaction built, needs signing and broadcast',
-        toAddress,
-        amount,
-        denom: 'uatom',
-      };
-    }
-
-    case 'delegate': {
-      const validatorAddress = ctx.getNodeParameter('validatorAddress', itemIndex) as string;
-      const amount = ctx.getNodeParameter('amount', itemIndex) as string;
-      
-      return {
-        status: 'delegation_prepared',
-        validatorAddress,
-        amount,
-        denom: 'uatom',
-      };
-    }
-
-    case 'undelegate': {
-      const validatorAddress = ctx.getNodeParameter('validatorAddress', itemIndex) as string;
-      const amount = ctx.getNodeParameter('amount', itemIndex) as string;
-      
-      return {
-        status: 'undelegation_prepared',
-        validatorAddress,
-        amount,
-        denom: 'uatom',
-        unbondingPeriod: '21 days',
-      };
-    }
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executeThorchainOperation(
-  ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  const accountIndex = ctx.getNodeParameter('accountIndex', itemIndex, 0) as number;
-  const useCustomPath = ctx.getNodeParameter('useCustomPath', itemIndex, false) as boolean;
-  const customPath = useCustomPath ? ctx.getNodeParameter('derivationPath', itemIndex) as string : null;
-
-  switch (operation) {
-    case 'getAddress': {
-      const showOnDevice = ctx.getNodeParameter('showOnDevice', itemIndex, false) as boolean;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || `m/44'/931'/${accountIndex}'/0/${addressIndex}`;
-      const pathArray = pathToArray(path);
-      
-      const response = await client.call(MESSAGE_TYPES.ThorchainGetAddress, {
-        addressN: pathArray,
-        showDisplay: showOnDevice,
-      });
-      
-      return {
-        address: (response as unknown as IDataObject).address,
-        path,
-        chain: 'thorchain',
-      };
-    }
-
-    case 'swap': {
-      const sellAsset = ctx.getNodeParameter('sellAsset', itemIndex) as string;
-      const buyAsset = ctx.getNodeParameter('buyAsset', itemIndex) as string;
-      const sellAmount = ctx.getNodeParameter('sellAmount', itemIndex) as string;
-      const slippageTolerance = ctx.getNodeParameter('slippageTolerance', itemIndex, 1) as number;
-      
-      const validation = validateSwapParams({
-        fromAsset: sellAsset,
-        toAsset: buyAsset,
-        amount: parseFloat(sellAmount),
-        destinationAddress: '',
-      });
-      if (!validation.isValid) {
-        throw new NodeOperationError(ctx.getNode(), `Invalid swap parameters: ${validation.errors.join(', ')}`);
-      }
-      
-      const minOutput = applySlippage(sellAmount, slippageTolerance);
-      const memo = createThorchainSwapMemo({
-        asset: buyAsset,
-        destinationAddress: '', // Would come from getAddress
-        limit: minOutput,
-      });
-      
-      return {
-        status: 'swap_prepared',
-        sellAsset,
-        buyAsset,
-        sellAmount,
-        minOutput,
-        slippageTolerance,
-        memo,
-      };
-    }
-
-    case 'send': {
-      const toAddress = ctx.getNodeParameter('toAddress', itemIndex) as string;
-      const amount = ctx.getNodeParameter('amount', itemIndex) as string;
-      
-      if (!isValidThorchainAddress(toAddress)) {
-        throw new NodeOperationError(ctx.getNode(), 'Invalid THORChain address');
-      }
-      
-      return {
-        status: 'send_prepared',
-        toAddress,
-        amount,
-        denom: 'rune',
-      };
-    }
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executeOsmosisOperation(
-  ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  const accountIndex = ctx.getNodeParameter('accountIndex', itemIndex, 0) as number;
-  const useCustomPath = ctx.getNodeParameter('useCustomPath', itemIndex, false) as boolean;
-  const customPath = useCustomPath ? ctx.getNodeParameter('derivationPath', itemIndex) as string : null;
-
-  switch (operation) {
-    case 'getAddress': {
-      const showOnDevice = ctx.getNodeParameter('showOnDevice', itemIndex, false) as boolean;
-      const addressIndex = ctx.getNodeParameter('addressIndex', itemIndex, 0) as number;
-      const path = customPath || `m/44'/118'/${accountIndex}'/0/${addressIndex}`;
-      const pathArray = pathToArray(path);
-      
-      const response = await client.call(MESSAGE_TYPES.OsmosisGetAddress, {
-        addressN: pathArray,
-        showDisplay: showOnDevice,
-      });
-      
-      return {
-        address: (response as unknown as IDataObject).address,
-        path,
-        chain: 'osmosis',
-      };
-    }
-
-    case 'swap': {
-      const sellAsset = ctx.getNodeParameter('sellAsset', itemIndex) as string;
-      const buyAsset = ctx.getNodeParameter('buyAsset', itemIndex) as string;
-      const sellAmount = ctx.getNodeParameter('sellAmount', itemIndex) as string;
-      const slippageTolerance = ctx.getNodeParameter('slippageTolerance', itemIndex, 1) as number;
-      
-      return {
-        status: 'osmosis_swap_prepared',
-        sellAsset,
-        buyAsset,
-        sellAmount,
-        slippageTolerance,
-        dex: 'osmosis',
-      };
-    }
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executeAddressOperation(
-  ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  switch (operation) {
-    case 'validate': {
-      const address = ctx.getNodeParameter('address', itemIndex) as string;
-      const coinTypes = ['bitcoin', 'ethereum', 'cosmos', 'thorchain'];
-      
-      for (const coin of coinTypes) {
-        if (validateAddressForCoin(address, coin)) {
-          return { valid: true, address, detectedType: coin };
-        }
-      }
-      
-      return { valid: false, address, detectedType: 'unknown' };
-    }
-
-    case 'generate': {
-      const useCustomPath = ctx.getNodeParameter('useCustomPath', itemIndex, false) as boolean;
-      const path = useCustomPath
-        ? ctx.getNodeParameter('derivationPath', itemIndex) as string
-        : "m/84'/0'/0'/0/0";
-      const pathArray = pathToArray(path);
-      const showOnDevice = ctx.getNodeParameter('showOnDevice', itemIndex, false) as boolean;
-      
-      const response = await client.call(MESSAGE_TYPES.GetAddress, {
-        addressN: pathArray,
-        coinName: 'Bitcoin',
-        showDisplay: showOnDevice,
-        scriptType: 'SPENDWITNESS',
-      });
-      
-      return {
-        address: (response as unknown as IDataObject).address,
-        path,
-      };
-    }
-
-    case 'showOnDevice': {
-      const useCustomPath = ctx.getNodeParameter('useCustomPath', itemIndex, false) as boolean;
-      const path = useCustomPath
-        ? ctx.getNodeParameter('derivationPath', itemIndex) as string
-        : "m/84'/0'/0'/0/0";
-      const pathArray = pathToArray(path);
-      
-      const response = await client.call(MESSAGE_TYPES.GetAddress, {
-        addressN: pathArray,
-        coinName: 'Bitcoin',
-        showDisplay: true,
-        scriptType: 'SPENDWITNESS',
-      });
-      
-      return {
-        displayed: true,
-        address: (response as unknown as IDataObject).address,
-        path,
-      };
-    }
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executeTransactionOperation(
-  ctx: IExecuteFunctions,
-  _client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  switch (operation) {
-    case 'getStatus': {
-      const txId = ctx.getNodeParameter('txId', itemIndex) as string;
-      return {
-        status: 'lookup_required',
-        message: 'Transaction status requires blockchain API lookup',
-        txId,
-        explorerUrl: getExplorerUrl('bitcoin', txId),
-      };
-    }
-
-    case 'decode': {
-      const rawTx = ctx.getNodeParameter('rawTransaction', itemIndex) as string;
-      return {
-        status: 'decode_pending',
-        rawTx,
-        message: 'Transaction decoding requires additional parsing',
-      };
-    }
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executeSigningOperation(
-  ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  const useCustomPath = ctx.getNodeParameter('useCustomPath', itemIndex, false) as boolean;
-  const customPath = useCustomPath ? ctx.getNodeParameter('derivationPath', itemIndex) as string : null;
-  const path = customPath || "m/44'/60'/0'/0/0";
-  const pathArray = pathToArray(path);
-
-  switch (operation) {
-    case 'signMessage': {
-      const message = ctx.getNodeParameter('message', itemIndex) as string;
-      
-      const response = await client.call(MESSAGE_TYPES.EthereumSignMessage, {
-        addressN: pathArray,
-        message: Buffer.from(message).toString('hex'),
-      });
-      
-      return {
-        message,
-        signature: (response as unknown as IDataObject).signature,
-        address: (response as unknown as IDataObject).address,
-        path,
-      };
-    }
-
-    case 'getPublicKey': {
-      const response = await client.call(MESSAGE_TYPES.GetPublicKey, { addressN: pathArray });
-      return {
-        publicKey: (response as unknown as IDataObject).publicKey,
-        path,
-      };
-    }
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executeShapeshiftOperation(
-  ctx: IExecuteFunctions,
-  _client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  switch (operation) {
-    case 'getQuote': {
-      const sellAsset = ctx.getNodeParameter('sellAsset', itemIndex) as string;
-      const buyAsset = ctx.getNodeParameter('buyAsset', itemIndex) as string;
-      const sellAmount = ctx.getNodeParameter('sellAmount', itemIndex) as string;
-      
-      return {
-        status: 'quote_required',
-        message: 'ShapeShift quotes require API integration',
-        sellAsset,
-        buyAsset,
-        sellAmount,
-      };
-    }
-
-    case 'getSupportedAssets':
-      return {
-        status: 'list_required',
-        message: 'Asset list requires ShapeShift API',
-      };
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executeSwapOperation(
-  ctx: IExecuteFunctions,
-  _client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  switch (operation) {
-    case 'getQuote': {
-      const sellAsset = ctx.getNodeParameter('sellAsset', itemIndex) as string;
-      const buyAsset = ctx.getNodeParameter('buyAsset', itemIndex) as string;
-      const sellAmount = ctx.getNodeParameter('sellAmount', itemIndex) as string;
-      const slippageTolerance = ctx.getNodeParameter('slippageTolerance', itemIndex, 1) as number;
-      
-      const validation = validateSwapParams({
-        fromAsset: sellAsset,
-        toAsset: buyAsset,
-        amount: parseFloat(sellAmount),
-        destinationAddress: '',
-      });
-      if (!validation.isValid) {
-        throw new NodeOperationError(ctx.getNode(), `Invalid swap: ${validation.errors.join(', ')}`);
-      }
-      
-      return {
-        status: 'quote_prepared',
-        sellAsset,
-        buyAsset,
-        sellAmount,
-        slippageTolerance,
-        minOutput: applySlippage(sellAmount, slippageTolerance),
-      };
-    }
-
-    case 'getSupportedPairs':
-      return {
-        pairs: [
-          'BTC.BTC/ETH.ETH',
-          'ETH.ETH/THOR.RUNE',
-          'BTC.BTC/THOR.RUNE',
-        ],
-        message: 'Full pair list requires DEX API integration',
-      };
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executeStakingOperation(
-  ctx: IExecuteFunctions,
-  _client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  switch (operation) {
-    case 'delegate': {
-      const validatorAddress = ctx.getNodeParameter('validatorAddress', itemIndex) as string;
-      const amount = ctx.getNodeParameter('amount', itemIndex) as string;
-      
-      return {
-        status: 'delegation_prepared',
-        validatorAddress,
-        amount,
-        message: 'Delegation requires signing and broadcast',
-      };
-    }
-
-    case 'undelegate': {
-      const validatorAddress = ctx.getNodeParameter('validatorAddress', itemIndex) as string;
-      const amount = ctx.getNodeParameter('amount', itemIndex) as string;
-      
-      return {
-        status: 'undelegation_prepared',
-        validatorAddress,
-        amount,
-        message: 'Undelegation requires signing and broadcast',
-      };
-    }
-
-    case 'getValidators':
-      return {
-        status: 'list_required',
-        message: 'Validator list requires chain API',
-      };
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executeDefiOperation(
-  ctx: IExecuteFunctions,
-  _client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  switch (operation) {
-    case 'addLiquidity': {
-      const slippageTolerance = ctx.getNodeParameter('slippageTolerance', itemIndex, 1) as number;
-      
-      return {
-        status: 'liquidity_addition_prepared',
-        slippageTolerance,
-        message: 'Liquidity operations require pool selection and amounts',
-      };
-    }
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executeRecoveryOperation(
-  ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  switch (operation) {
-    case 'startRecovery': {
-      const wordCount = ctx.getNodeParameter('wordCount', itemIndex, 12) as number;
-      const pinProtection = ctx.getNodeParameter('pinProtection', itemIndex, true) as boolean;
-      
-      await client.recoverDevice({
-        word_count: wordCount as 12 | 18 | 24,
-        pin_protection: pinProtection,
-        enforce_wordlist: true,
-      });
-      
-      return {
-        status: 'recovery_started',
-        wordCount,
-        pinProtection,
-        message: 'Follow device prompts to enter recovery words',
-      };
-    }
-
-    case 'enterWord': {
-      const word = ctx.getNodeParameter('recoveryWord', itemIndex) as string;
-      await client.sendWord(word);
-      return { status: 'word_entered', message: 'Word accepted' };
-    }
-
-    case 'cancelRecovery':
-      await client.cancel();
-      return { status: 'recovery_cancelled' };
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executePinOperation(
-  ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  switch (operation) {
-    case 'changePin':
-      await client.changePin();
-      return {
-        status: 'pin_change_initiated',
-        message: 'Follow device prompts to change PIN',
-        matrixDescription: getPinMatrixTypeDescription(1),
-      };
-
-    case 'removePin':
-      await client.changePin(true);
-      return {
-        status: 'pin_removal_initiated',
-        message: 'Follow device prompts to remove PIN',
-      };
-
-    case 'enterPin': {
-      const pin = ctx.getNodeParameter('pin', itemIndex) as string;
-      if (!isValidPin(pin)) {
-        throw new NodeOperationError(ctx.getNode(), 'Invalid PIN format');
-      }
-      const encodedPin = encodePin(pin);
-      await client.sendPin(encodedPin);
-      return { status: 'pin_entered' };
-    }
-
-    case 'checkPinStatus': {
-      const features = await client.getFeatures();
-      return {
-        pinProtected: features?.pin_protection || false,
-        deviceId: features?.device_id,
-      };
-    }
-
-    case 'getPinMatrix':
-      return {
-        matrixDescription: getPinMatrixTypeDescription(1),
-        layout: '7 8 9\n4 5 6\n1 2 3',
-        note: 'Enter PIN using position numbers based on device display',
-      };
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executePassphraseOperation(
-  ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  switch (operation) {
-    case 'enable':
-      await client.applySettings({ use_passphrase: true });
-      return { status: 'passphrase_enabled' };
-
-    case 'disable':
-      await client.applySettings({ use_passphrase: false });
-      return { status: 'passphrase_disabled' };
-
-    case 'enter': {
-      const passphrase = ctx.getNodeParameter('passphrase', itemIndex) as string;
-      await client.sendPassphrase(passphrase);
-      return { status: 'passphrase_entered' };
-    }
-
-    case 'checkStatus': {
-      const features = await client.getFeatures();
-      return {
-        passphraseEnabled: features?.passphrase_protection || false,
-      };
-    }
-
-    case 'setOnDevice':
-      // Note: passphraseAlwaysOnDevice is not directly available in current API
-      // This enables passphrase and returns info that user should enter on device
-      await client.applySettings({ use_passphrase: true });
-      return {
-        status: 'on_device_enabled',
-        message: 'Passphrase enabled - enter on device when prompted',
-        note: 'Device will prompt for passphrase entry',
-      };
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executeFirmwareOperation(
-  _ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  _itemIndex: number,
-): Promise<IDataObject> {
-  switch (operation) {
-    case 'getVersion': {
-      const features = await client.getFeatures();
-      return {
-        majorVersion: features?.major_version,
-        minorVersion: features?.minor_version,
-        patchVersion: features?.patch_version,
-        fullVersion: `${features?.major_version}.${features?.minor_version}.${features?.patch_version}`,
-        bootloaderMode: features?.bootloader_mode,
-      };
-    }
-
-    case 'checkUpdate':
-      return {
-        status: 'check_required',
-        message: 'Firmware update check requires KeepKey API',
-      };
-
-    case 'verifyFirmware': {
-      const features = await client.getFeatures();
-      return {
-        firmwarePresent: features?.firmware_present,
-        initialized: features?.initialized,
-        vendor: features?.vendor,
-      };
-    }
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executeSecurityOperation(
-  ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  switch (operation) {
-    case 'lockDevice':
-      await client.clearSession();
-      return { status: 'device_locked' };
-
-    case 'checkSecurity': {
-      const features = await client.getFeatures();
-      return {
-        pinProtected: features?.pin_protection,
-        passphraseEnabled: features?.passphrase_protection,
-        initialized: features?.initialized,
-        needsBackup: features?.needs_backup,
-      };
-    }
-
-    case 'getSecurityInfo': {
-      const features = await client.getFeatures();
-      return {
-        deviceId: features?.device_id,
-        label: features?.label,
-        pinProtected: features?.pin_protection,
-        passphraseEnabled: features?.passphrase_protection,
-        initialized: features?.initialized,
-        bootloaderMode: features?.bootloader_mode,
-        firmwarePresent: features?.firmware_present,
-      };
-    }
-
-    case 'setAutoLock': {
-      const delay = ctx.getNodeParameter('autoLockDelay', itemIndex) as number;
-      await client.applySettings({ auto_lock_delay_ms: delay * 1000 });
-      return { status: 'auto_lock_set', delaySeconds: delay };
-    }
-
-    case 'factoryReset':
-      await client.wipeDevice();
-      return { status: 'factory_reset_complete', message: 'Device has been wiped' };
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-async function executeUtilityOperation(
-  ctx: IExecuteFunctions,
-  client: KeepKeyClient,
-  operation: string,
-  itemIndex: number,
-): Promise<IDataObject> {
-  switch (operation) {
-    case 'getRandom':
-    case 'getEntropy': {
-      const bytes = ctx.getNodeParameter('bytes', itemIndex, 32) as number;
-      const entropy = await client.getEntropy(bytes);
-      return {
-        entropy: entropy.toString('hex'),
-        bytes,
-      };
-    }
-
-    case 'cipherKeyValue': {
-      const data = ctx.getNodeParameter('data', itemIndex) as string;
-      const useCustomPath = ctx.getNodeParameter('useCustomPath', itemIndex, false) as boolean;
-      const path = useCustomPath
-        ? ctx.getNodeParameter('derivationPath', itemIndex) as string
-        : "m/44'/60'/0'/0/0";
-      const pathArray = pathToArray(path);
-      
-      const response = await client.call(MESSAGE_TYPES.CipherKeyValue, {
-        addressN: pathArray,
-        key: 'n8n-keepkey',
-        value: Buffer.from(data).toString('hex'),
-        encrypt: true,
-        askOnEncrypt: true,
-        askOnDecrypt: true,
-      });
-      
-      return {
-        result: (response as unknown as IDataObject).value,
-        path,
-      };
-    }
-
-    default:
-      return { status: 'not_implemented', operation };
-  }
-}
-
-// Mark helper functions as used
-void pathToArray;
-void addressTypeToScriptType;
-void buildErc20TransferData;
-void buildErc20ApproveData;
-void satoshisToBtc;
-void btcToSatoshis;
-void weiToEth;
-void ethToWei;
-void gweiToWei;
-void encodePin;
-void isValidPin;
-void getPinMatrixTypeDescription;
-void applySlippage;
-void createThorchainSwapMemo;
-void validateSwapParams;
-void getDerivationPath;
-void pathArrayToString;
-void isValidBitcoinAddress;
-void isValidEthereumAddress;
-void isValidCosmosAddress;
-void isValidThorchainAddress;
-void validateAddressForCoin;
-void getExplorerUrl;
-void BITCOIN_LIKE_COINS;
-void EVM_CHAINS;
-void COSMOS_CHAINS;
